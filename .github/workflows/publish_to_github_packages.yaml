@@ -15,7 +15,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Publish package
-        run: mvn --batch-mode deploy
+      - name: Publish package (Snapshot)
+        if: github.event_name == 'push'
+        run: mvn --batch-mode deploy -PSnapshotsPackages
         env:
-          GITHUB_TOKEN: ${{ secrets.JAVA_PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
+      - name: Publish package
+        if: github.event_name == 'release'
+        run: mvn --batch-mode deploy -PReleasePackages
+        env:
+          GITHUB_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
