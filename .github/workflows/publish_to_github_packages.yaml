@@ -20,7 +20,7 @@ jobs:
         run: mvn --batch-mode deploy -PSnapshotsPackages
         env:
           GITHUB_TOKEN: ${{ secrets.JAVA_PAT_TOKEN }}
-      - name: Publish package
+      - name: Publish package (Release)
         if: github.event_name == 'release'
         run: mvn --batch-mode deploy -PReleasePackages
         env:
